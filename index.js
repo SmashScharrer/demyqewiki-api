@@ -8,6 +8,6 @@ app.get("/", (request, response) => {
     response.send("Hello !");
 });
 
-app.listen(3000, () => {
+app.listen(process.env.PORT || 5000, () => {
     console.log("Serveur à l'écoute");
 });
