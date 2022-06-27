@@ -14,16 +14,21 @@
     "url": "https://github.com/SmashScharrer/demyqewiki-api/issues"
   },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "lint": "npx eslint index.js"
   },
   "keywords": [
     "heroku"
   ],
   "dependencies": {
+    "axios": "^0.27.2",
     "express": "^4.18.1"
   },
   "engines": {
     "npm": ">=8.5.5",
     "node": ">=16.15.0"
+  },
+  "devDependencies": {
+    "eslint": "^8.18.0"
   }
 }
