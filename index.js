@@ -49,6 +49,16 @@ app.get("/summoner", async (request, response) => {
     });
 });
 
+// GET : Champion masteries by summoner name
+app.get("/champion-masteries", async (request, response) => {
+    await axios.get(hostRiotAPIv1 + "/lol/champion-mastery/v4/champion-masteries/by-summoner/Sn0W3838?api_key=" + process.env.RIOT_API_KEY, config).then((res) => {
+        response.status(200).json(res.data);
+    }).catch((error) => {
+        console.log(error);
+        response.status(500);
+    });
+});
+
 app.listen(process.env.PORT || 5000, () => {
     console.log("Serveur à l'écoute");
 });
