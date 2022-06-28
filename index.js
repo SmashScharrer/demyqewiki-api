@@ -109,6 +109,18 @@ app.get("/items", async (request, response) => {
 
 /* ## Matchs ## */
 
+/* ## League ## */
+// GET : League champion data by summoner name
+app.get("/league/:summonerName", async (request, response) => {
+    const summoner = await axios.get(hostRiotAPIv1 + "/lol/summoner/v4/summoners/by-name/" + request.params.summonerName + "?api_key=" + process.env.RIOT_API_KEY, config);
+    await axios.get(hostRiotAPIv1 + "/lol/league/v4/entries/by-summoner/" + summoner.data.id + "?api_key=" + process.env.RIOT_API_KEY, config).then((res) => {
+        response.status(200).json(res.data);
+    }).catch((error) => {
+        console.log("Error : " + error.code);
+        response.status(500);
+    });
+});
+
 app.listen(process.env.PORT || 5000, () => {
     console.log("Serveur à l'écoute");
 });
