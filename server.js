@@ -1,7 +1,21 @@
 /* # Require Dependencies # */
 const express = require("express");
-const app = express();
+const cors = require("cors");
+const dotenv = require("dotenv");
 const axios = require("axios");
+
+/* # Express Config # */
+const app = express();
+app.use(express.json());
+
+/* # CORS Config # */
+app.use(cors({
+    origin: "*",
+    methods: ['GET','POST','DELETE','UPDATE','PUT','PATCH'],
+}));
+
+/* # Dotenv Config # */
+dotenv.config();
 
 /* # Axios Config # */
 const config = {
@@ -13,9 +27,6 @@ const config = {
 const hostRiotAPIv1 = "https://euw1.api.riotgames.com";
 const hostRiotAPIv2 = "https://europe.api.riotgames.com";
 const hostDDRagon = "https://ddragon.leagueoflegends.com";
-
-/* # Middleware # */
-app.use(express.json());
 
 /* # Endpoints # */
 /* ## Versions ## */
@@ -56,7 +67,7 @@ app.get("/champion-masteries/:summonerName", async (request, response) => {
     await axios.get(hostRiotAPIv1 + "/lol/champion-mastery/v4/champion-masteries/by-summoner/" + summoner.data.id + "?api_key=" + process.env.RIOT_API_KEY, config).then((res) => {
         response.status(200).json(res.data);
     }).catch((error) => {
-        console.log("Error : " + error.code);
+        console.log(error);
         response.status(500);
     });
 });

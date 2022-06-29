@@ -2,7 +2,7 @@
   "name": "demyqewiki-api",
   "version": "0.1.0-alpha",
   "description": "API for Demyqewiki.gg application",
-  "main": "index.js",
+  "main": "server.js",
   "homepage": "https://github.com/SmashScharrer/demyqewiki-api#readme",
   "repository": {
     "type": "git",
@@ -14,15 +14,19 @@
     "url": "https://github.com/SmashScharrer/demyqewiki-api/issues"
   },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "lint": "npx eslint index.js"
+    "dev": "nodemon server.js"
   },
   "keywords": [
     "heroku"
   ],
   "dependencies": {
     "axios": "^0.27.2",
+    "cors": "^2.8.5",
+    "dotenv": "^16.0.1",
     "express": "^4.18.1"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.18"
   },
   "engines": {
     "npm": ">=8.5.5",
