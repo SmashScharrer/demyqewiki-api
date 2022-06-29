@@ -118,6 +118,29 @@ app.get("/items", async (request, response) => {
     });
 });
 
+/* ## Icons ## */
+// GET : All icons profile
+app.get("/icons-profile", async (request, response) => {
+    const version = await axios.get(hostDDRagon + "/api/versions.json", config);
+    await axios.get(hostDDRagon + "/cdn/" + version.data[0] + "/data/fr_FR/profileicon.json", config).then((res) => {
+        response.status(200).json(res.data);
+    }).catch((error) => {
+        console.log("Error : " + error.code);
+        response.status(500);
+    });
+});
+// GET : Icon profile by summoner name
+app.get("/icon-profile/:summonerName", async (request, response) => {
+    const version = await axios.get(hostDDRagon + "/api/versions.json", config);
+    const summoner = await axios.get(hostRiotAPIv1 + "/lol/summoner/v4/summoners/by-name/" + request.params.summonerName + "?api_key=" + process.env.RIOT_API_KEY, config);
+    await axios.get(hostDDRagon + "/cdn/" + version.data[0] + "/img/profileicon/" + summoner.data.profileIconId + ".png", config).then((res) => {
+        response.status(200).json(`${hostDDRagon}/cdn/${version.data[0]}/img/profileicon/${summoner.data.profileIconId}.png`);
+    }).catch((error) => {
+        console.log("Error : " + error.code);
+        response.status(500);
+    });
+});
+
 /* ## Matchs ## */
 
 /* ## League ## */
