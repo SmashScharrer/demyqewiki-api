@@ -49,10 +49,32 @@ app.get("/version/lastest", async (request, response) => {
     });
 });
 
-/* ## Summoner ## */
+/* ## Summoner Profile ## */
 // GET : Summoner data by summoner name
 app.get("/summoner/:summonerName", async (request, response) => {
     await axios.get(hostRiotAPIv1 + "/lol/summoner/v4/summoners/by-name/" + request.params.summonerName + "?api_key=" + process.env.RIOT_API_KEY, config).then((res) => {
+        response.status(200).json(res.data);
+    }).catch((error) => {
+        console.log("Error : " + error.code);
+        response.status(500);
+    });
+});
+
+/* # Champions # */
+// GET : All League of Legends champions data
+app.get("/champions", async (request, response) => {
+    const version = await axios.get(hostDDRagon + "/api/versions.json", config);
+    await axios.get(hostDDRagon + "/cdn/" + version.data[0] + "/data/fr_FR/champion.json", config).then((res) => {
+        response.status(200).json(res.data);
+    }).catch((error) => {
+        console.log("Error : " + error.code);
+        response.status(500);
+    });
+});
+// GET : League of Legends champion data by champion name
+app.get("/champion/:championName", async (request, response) => {
+    const version = await axios.get(hostDDRagon + "/api/versions.json", config);
+    await axios.get(hostDDRagon + "/cdn/" + version.data[0] + "/data/fr_FR/champion/" + request.params.championName + ".json", config).then((res) => {
         response.status(200).json(res.data);
     }).catch((error) => {
         console.log("Error : " + error.code);
@@ -118,7 +140,7 @@ app.get("/items", async (request, response) => {
     });
 });
 
-/* ## Icons ## */
+/* ## Icons Summoner Profile ## */
 // GET : All icons profile
 app.get("/icons-profile", async (request, response) => {
     const version = await axios.get(hostDDRagon + "/api/versions.json", config);
