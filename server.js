@@ -163,7 +163,26 @@ app.get("/icon-profile/:summonerName", async (request, response) => {
     });
 });
 
-/* ## Matchs ## */
+/* ## Games ## */
+// GET : Last summoner games ids by summoner name
+app.get("/last-games/:summonerName", async (request, response) => {
+    const summoner = await axios.get(hostRiotAPIv1 + "/lol/summoner/v4/summoners/by-name/" + request.params.summonerName + "?api_key=" + process.env.RIOT_API_KEY, config);
+    await axios.get(hostRiotAPIv2 + "/lol/match/v5/matches/by-puuid/" + summoner.data.puuid + "/ids?start=0&count=5&api_key=" + process.env.RIOT_API_KEY, config).then((res) => {
+        response.status(200).json(res.data);
+    }).catch((error) => {
+        console.log(error);
+        response.status(500);
+    });
+});
+// GET : Game data by game id
+app.get("/game/:gameId", async (request, response) => {
+    await axios.get(hostRiotAPIv2 + "/lol/match/v5/matches/" + request.params.gameId + "?api_key=" + process.env.RIOT_API_KEY, config).then((res) => {
+        response.status(200).json(res.data);
+    }).catch((error) => {
+        console.log(error);
+        response.status(500);
+    });
+});
 
 /* ## League ## */
 // GET : League champion data by summoner name
